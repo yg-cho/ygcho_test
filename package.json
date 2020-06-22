@@ -1,0 +1,22 @@
+{
+  "name": "ygcho_test",
+  "version": "1.0.0",
+  "description": "ygcho_test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yg-cho/ygcho_test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yg-cho/ygcho_test/issues"
+  },
+  "homepage": "https://github.com/yg-cho/ygcho_test#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
