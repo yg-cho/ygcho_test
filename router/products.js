@@ -12,15 +12,21 @@ router.get('/total',(req,res) =>{
 });
 
 router.get('/',(req,res) => {
+
     res.json({
-        message : 'product get'
+        message : 'product get',
     });
 });
 
 // product post
 router.post('/',(req,res) => {
+    const product = {
+        name : req.body.productName,
+        price : req.body.productPrice
+    }
     res.json({
-        message : 'product post'
+        message : 'product post',
+        productInfo : product
     });
 });
 

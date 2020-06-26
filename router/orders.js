@@ -17,8 +17,13 @@ router.get('/',(req, res) => {
 
 // order post
 router.post('/',(req,res) => {
+    const order ={
+        orderNumber : req.body.orderNumber,
+        orderDate : req.body.orderDate
+    }
     res.json({
-        message : 'order post(create)'
+        message : 'order post(create)',
+        orderInfo : order
     });
 });
 
