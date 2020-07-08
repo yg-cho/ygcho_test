@@ -2,30 +2,17 @@
 
 const express = require("express");
 const app = express();
-
 const morgan = require("morgan");
-
 const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+dotenv.config();
 
-
-const mongoose = require("mongoose");
-//
-// app.use((req,res) => {
-//     res.json({
-//       data : 'OK'
-//     });
-// });
+// database 연결
+require("./config/database");
 
 const productRoute = require("./router/products");
 const orderRoute = require("./router/orders");
-
-//database 연결
-const db = "mongodb+srv://root:12345@cluster0-fe4rr.mongodb.net/shoppingmall?retryWrites=true&w=majority";
-
-//promise
-mongoose.connect(db, {useNewUrlParser : true, useUnifiedTopology: true})
-    .then(() => console.log("MongoDB connected..."))
-    .catch(err => console.log(err.message));
+const userRoute = require("./router/user");
 
 //middleware setting
 app.use(morgan('dev'));
@@ -35,7 +22,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //route setting
 app.use("/product", productRoute);
 app.use("/order", orderRoute);
+app.use("/user", userRoute);
 
-const PORT = 2222;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, console.log("test server started!"));

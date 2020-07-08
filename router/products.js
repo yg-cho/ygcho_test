@@ -7,6 +7,9 @@ const router = express.Router();
 
 const productModel = require('../model/products')
 
+
+const checkAuth = require("../config/check-auth");
+
 // product get
 router.get('/',(req,res) => {
 
@@ -38,7 +41,7 @@ router.get('/',(req,res) => {
 
 // product 상세데이터 불러오는 api
 
-router.get('/:productId',(req, res) => {
+router.get('/:productId', checkAuth, (req, res) => {
     const id = req.params.productId;
 
     productModel
@@ -72,25 +75,26 @@ router.get('/:productId',(req, res) => {
 
 
 // product post
-router.post('/',(req,res) => {
- const product = new productModel({
-     name : req.body.productName,
-     price : req.body.productPrice
+router.post('/', checkAuth, (req,res) => {
+    const product = new productModel({
+        name : req.body.productName,
+        price : req.body.productPrice
 
-    });
-    res.json({
-        message: 'product post',
-        productInfo: product
     });
     product
         .save()
         .then(result => {
+            console.log(result);
             res.json({
                message : "Registered product",
                 createdProduct : {
                     id: result._id,
                     name: result.name,
                     price: result.price,
+                    date: {
+                        createdAt: result.createdAt,
+                        updatedAt: result.updatedAt
+                    },
                     request: {
                         type: "GET",
                         url: "http://localhost:2222/prodcut/"+result._id
@@ -106,7 +110,7 @@ router.post('/',(req,res) => {
 });
 
 // product patch
-router.patch('/',(req,res) => {
+router.patch('/:productId', checkAuth, (req,res) => {
     // update대상 선언
     const id = req.params.productId;
 
@@ -136,11 +140,11 @@ router.patch('/',(req,res) => {
 });
 
 // product delete
-router.delete('/',(req,res) => {
-   const id = req. param.productId;
+router.delete('/:productId', checkAuth, (req, res) => {
+   const id = req.params.productId;
 
    productModel
-       .findByIdAndDelete(id)
+       .findByIdAndRemove(id)
        .then(() => {
            res.json({
                message: "Deleted product",
